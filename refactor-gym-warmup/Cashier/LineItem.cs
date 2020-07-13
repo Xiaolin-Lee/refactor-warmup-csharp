@@ -2,7 +2,9 @@ namespace refactor_gym_warmup_2020.cashier
 {
     public class LineItem
     {
-        private string desc;
+        private const double TaxRate = .10;
+
+        public string desc;
         private double price;
         private int qty;
 
@@ -31,6 +33,16 @@ namespace refactor_gym_warmup_2020.cashier
         public double TotalAmount()
         {
             return price * qty;
+        }
+
+        public double Tax()
+        {
+            return TotalAmount() * TaxRate;
+        }
+
+        public double TotalPrice()
+        {
+            return TotalAmount() + Tax();
         }
     }
 }

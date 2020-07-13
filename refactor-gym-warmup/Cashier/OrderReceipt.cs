@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text;
 
 namespace refactor_gym_warmup_2020.cashier
@@ -21,45 +22,42 @@ namespace refactor_gym_warmup_2020.cashier
         public string PrintReceipt()
         {
             StringBuilder output = new StringBuilder();
+            PrintHeaderText(output);
+            
+            order.GetLineItems().ForEach(item => PrintLineItem(output, item));
+            
+            PrintSalesTax(output);
+            PrintTotalPrice(output);
+            return output.ToString();
+        }
 
-            // print headers
+        private static void PrintLineItem(StringBuilder output, LineItem lineItem)
+        {
+            output.Append(lineItem.desc);
+            output.Append('\t');
+            output.Append(lineItem.GetPrice());
+            output.Append('\t');
+            output.Append(lineItem.GetQuantity());
+            output.Append('\t');
+            output.Append(lineItem.TotalAmount());
+            output.Append('\n');
+        }
+
+        private void PrintHeaderText(StringBuilder output)
+        {
             output.Append("======Printing Orders======\n");
-
-            // print date, bill no, customer name
-//        output.Append("Date - " + order.getDate();
             output.Append(order.GetCustomerName());
             output.Append(order.GetCustomerAddress());
-//        output.Append(order.getCustomerLoyaltyNumber());
+        }
 
-            // prints lineItems
-            double totSalesTx = 0d;
-            double tot = 0d;
+        private void PrintTotalPrice(StringBuilder output)
+        {
+            output.Append("Total Amount").Append('\t').Append(order.GetLineItems().Sum(item => item.TotalPrice()));
+        }
 
-            foreach (LineItem lineItem in order.GetLineItems())
-            {
-                output.Append(lineItem.GetDescription());
-                output.Append('\t');
-                output.Append(lineItem.GetPrice());
-                output.Append('\t');
-                output.Append(lineItem.GetQuantity());
-                output.Append('\t');
-                output.Append(lineItem.TotalAmount());
-                output.Append('\n');
-
-                // calculate sales tax @ rate of 10%
-                double salesTax = lineItem.TotalAmount() * .10;
-                totSalesTx += salesTax;
-
-                // calculate total amount of lineItem = price * quantity + 10 % sales tax
-                tot += lineItem.TotalAmount() + salesTax;
-            }
-
-            // prints the state tax
-            output.Append("Sales Tax").Append('\t').Append(totSalesTx);
-
-            // print total amount
-            output.Append("Total Amount").Append('\t').Append(tot);
-            return output.ToString();
+        private void PrintSalesTax(StringBuilder output)
+        {
+            output.Append("Sales Tax").Append('\t').Append(order.GetLineItems().Sum(item => item.Tax()));
         }
     }
 }
