@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using refactor_gym_warmup_2020.cashier;
 using Xunit;
 
@@ -14,7 +15,8 @@ namespace refactor_gym_warmup_test.cashier
             OrderReceipt receipt = new OrderReceipt(order);
 
             String output = receipt.PrintReceipt();
-
+            
+            Assert.Contains(DateTime.Now.ToString("yyyy年M月d日, dddd", new CultureInfo("zh-cn")), output);
             Assert.Contains("Mr X", output);
             Assert.Contains("Chicago, 60601", output);
         }
@@ -29,7 +31,6 @@ namespace refactor_gym_warmup_test.cashier
                 new LineItem("chocolate", 20.0, 1),
             };
             OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems));
-
             String output = receipt.PrintReceipt();
 
             Assert.Contains("milk\t10\t2\t20\n", output);

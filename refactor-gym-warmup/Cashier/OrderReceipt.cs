@@ -1,3 +1,5 @@
+using System;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -48,8 +50,11 @@ namespace refactor_gym_warmup_2020.cashier
         {
             var output = new StringBuilder();
             output.Append(HeaderText);
+            var now = DateTime.Now.ToString("yyyy年M月d日, dddd", new CultureInfo("zh-cn"));
+            output.Append(now);
             output.Append(order.GetCustomerName());
             output.Append(order.GetCustomerAddress());
+            
             return output;
         }
 
