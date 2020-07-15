@@ -16,7 +16,7 @@ namespace refactor_gym_warmup_2020.cashier
         {
             StringBuilder output = new StringBuilder();
             output.Append(PrintHeaderText());
-            output.Append(order.GetLineItems().Select(PrintLineItem).ToList());
+            order.GetLineItems().ForEach(item => output.Append(PrintLineItem(item)));
             
             output.Append(PrintSalesTax());
             output.Append(PrintTotalPrice());
