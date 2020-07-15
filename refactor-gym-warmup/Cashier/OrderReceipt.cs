@@ -3,13 +3,6 @@ using System.Text;
 
 namespace refactor_gym_warmup_2020.cashier
 {
-    /**
- * OrderReceipt prints the details of order including customer name, address, description, quantity,
- * price and amount. It also calculates the sales tax @ 10% and prints as part
- * of order. It computes the total order amount (amount of individual lineItems +
- * total sales tax) and prints it.
- *
- */
     public class OrderReceipt
     {
         private Order order;
@@ -22,17 +15,17 @@ namespace refactor_gym_warmup_2020.cashier
         public string PrintReceipt()
         {
             StringBuilder output = new StringBuilder();
-            PrintHeaderText(output);
+            output.Append(PrintHeaderText());
+            output.Append(order.GetLineItems().Select(PrintLineItem).ToList());
             
-            order.GetLineItems().ForEach(item => PrintLineItem(output, item));
-            
-            PrintSalesTax(output);
-            PrintTotalPrice(output);
+            output.Append(PrintSalesTax());
+            output.Append(PrintTotalPrice());
             return output.ToString();
         }
 
-        private static void PrintLineItem(StringBuilder output, LineItem lineItem)
+        private static StringBuilder PrintLineItem(LineItem lineItem)
         {
+            var output = new StringBuilder();
             output.Append(lineItem.desc);
             output.Append('\t');
             output.Append(lineItem.GetPrice());
@@ -41,23 +34,27 @@ namespace refactor_gym_warmup_2020.cashier
             output.Append('\t');
             output.Append(lineItem.TotalAmount());
             output.Append('\n');
+            return output;
         }
 
-        private void PrintHeaderText(StringBuilder output)
+        private StringBuilder PrintHeaderText()
         {
+            var output = new StringBuilder();
             output.Append("======Printing Orders======\n");
             output.Append(order.GetCustomerName());
             output.Append(order.GetCustomerAddress());
+            return output;
         }
 
-        private void PrintTotalPrice(StringBuilder output)
+        private StringBuilder PrintTotalPrice()
         {
-            output.Append("Total Amount").Append('\t').Append(order.GetLineItems().Sum(item => item.TotalPrice()));
+            return new StringBuilder().Append("Total Amount").Append('\t').Append(order.GetLineItems().Sum(item => item.TotalPrice()));
         }
 
-        private void PrintSalesTax(StringBuilder output)
+        private StringBuilder PrintSalesTax()
         {
-            output.Append("Sales Tax").Append('\t').Append(order.GetLineItems().Sum(item => item.Tax()));
+            return new StringBuilder().Append("Sales Tax").Append('\t').Append(order.GetLineItems().Sum(item => item.Tax()));
+
         }
     }
 }
