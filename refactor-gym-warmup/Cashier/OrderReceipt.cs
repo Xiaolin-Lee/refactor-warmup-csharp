@@ -6,17 +6,24 @@ namespace refactor_gym_warmup_2020.cashier
     public class OrderReceipt
     {
         private Order order;
+        private const string TotalAmountText = "总价";
+        private const string HeaderText = "======老王超市,值得信赖======\n";
+        private const string SalesTax = "税额";
+        private const string FooterText = "---------------";
 
         public OrderReceipt(Order order)
         {
             this.order = order;
+            
         }
 
         public string PrintReceipt()
         {
             StringBuilder output = new StringBuilder();
-            output.Append(PrintHeaderText());
+            output.Append(PrintHeader());
             order.GetLineItems().ForEach(item => output.Append(PrintLineItem(item)));
+            
+            output.Append(FooterText);
             
             output.Append(PrintSalesTax());
             output.Append(PrintTotalPrice());
@@ -37,10 +44,10 @@ namespace refactor_gym_warmup_2020.cashier
             return output;
         }
 
-        private StringBuilder PrintHeaderText()
+        private StringBuilder PrintHeader()
         {
             var output = new StringBuilder();
-            output.Append("======Printing Orders======\n");
+            output.Append(HeaderText);
             output.Append(order.GetCustomerName());
             output.Append(order.GetCustomerAddress());
             return output;
@@ -48,13 +55,12 @@ namespace refactor_gym_warmup_2020.cashier
 
         private StringBuilder PrintTotalPrice()
         {
-            return new StringBuilder().Append("Total Amount").Append('\t').Append(order.GetLineItems().Sum(item => item.TotalPrice()));
+            return new StringBuilder().Append(TotalAmountText).Append('\t').Append(order.GetLineItems().Sum(item => item.TotalPrice()));
         }
 
         private StringBuilder PrintSalesTax()
         {
-            return new StringBuilder().Append("Sales Tax").Append('\t').Append(order.GetLineItems().Sum(item => item.Tax()));
-
+            return new StringBuilder().Append(SalesTax).Append('\t').Append(order.GetLineItems().Sum(item => item.Tax()));
         }
     }
 }

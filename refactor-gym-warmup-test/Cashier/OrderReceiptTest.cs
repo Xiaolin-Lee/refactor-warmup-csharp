@@ -35,8 +35,8 @@ namespace refactor_gym_warmup_test.cashier
             Assert.Contains("milk\t10\t2\t20\n", output);
             Assert.Contains("biscuits\t5\t5\t25\n", output);
             Assert.Contains("chocolate\t20\t1\t20\n", output);
-            Assert.Contains("Sales Tax\t6.5", output);
-            Assert.Contains("Total Amount\t71.5", output);
+            Assert.Contains("税额\t6.5", output);
+            Assert.Contains("总价\t71.5", output);
         }
     }
 }
