@@ -42,12 +42,12 @@ namespace refactor_gym_warmup_test.cashier
             OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, dateTimeInstance.Object));
             String output = receipt.PrintReceipt();
 
-            Assert.Contains("milk\t10\t2\t20\n", output);
-            Assert.Contains("biscuits\t5\t5\t25\n", output);
-            Assert.Contains("chocolate\t20\t1\t20\n", output);
-            Assert.Contains("税额\t6.5", output);
-            Assert.DoesNotContain("折扣", output);
-            Assert.Contains("总价\t71.5", output);
+            Assert.Contains("milk, 10 X 2, 20\n", output);
+            Assert.Contains("biscuits, 5 X 5, 25\n", output);
+            Assert.Contains("chocolate, 20 X 1, 20\n", output);
+            Assert.Contains("税额: 6.5", output);
+            Assert.DoesNotContain("折扣:", output);
+            Assert.Contains("总价: 71.5", output);
         }
         
         [Fact]
@@ -67,12 +67,12 @@ namespace refactor_gym_warmup_test.cashier
             String output = "";
             OrderReceipt receipt = new OrderReceipt(new Order(null, null, lineItems, dateTimeInstance.Object));
             output = receipt.PrintReceipt();
-            Assert.Contains("milk\t10\t2\t20\n", output);
-            Assert.Contains("biscuits\t5\t5\t25\n", output);
-            Assert.Contains("chocolate\t20\t1\t20\n", output);
-            Assert.Contains("税额\t6.5", output);
-            Assert.Contains("折扣\t1.43", output);
-            Assert.Contains("总价\t70.07", output);
+            Assert.Contains("milk, 10 X 2, 20\n", output);
+            Assert.Contains("biscuits, 5 X 5, 25\n", output);
+            Assert.Contains("chocolate, 20 X 1, 20\n", output);
+            Assert.Contains("税额: 6.5", output);
+            Assert.Contains("折扣: 1.43", output);
+            Assert.Contains("总价: 70.07", output);
         }
     }
 }

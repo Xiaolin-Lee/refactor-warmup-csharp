@@ -36,16 +36,7 @@ namespace refactor_gym_warmup_2020.cashier
 
         private static StringBuilder PrintLineItem(LineItem lineItem)
         {
-            var output = new StringBuilder();
-            output.Append(lineItem.desc);
-            output.Append('\t');
-            output.Append(lineItem.GetPrice());
-            output.Append('\t');
-            output.Append(lineItem.GetQuantity());
-            output.Append('\t');
-            output.Append(lineItem.TotalAmount());
-            output.Append('\n');
-            return output;
+            return new StringBuilder().Append($"{lineItem.desc}, {lineItem.GetPrice()} X {lineItem.GetQuantity()}, {lineItem.TotalAmount()}\n");
         }
 
         private StringBuilder PrintHeader()
@@ -59,19 +50,19 @@ namespace refactor_gym_warmup_2020.cashier
             return output;
         }
 
-        private StringBuilder PrintTotalPrice()
+        private string PrintTotalPrice()
         {
-            return new StringBuilder().Append(TotalAmountText).Append('\t').Append(order.TotalPrice());
+            return $"{TotalAmountText}: {order.TotalPrice()}";
         }
 
-        private StringBuilder PrintSalesTax()
+        private string PrintSalesTax()
         {
-            return new StringBuilder().Append(SalesTaxText).Append('\t').Append(order.GetTax());
+            return $"{SalesTaxText }: {order.GetTax()}";
         }
         
-        private StringBuilder PrintDiscount()
+        private string PrintDiscount()
         {
-            return new StringBuilder().Append(DiscountText).Append('\t').Append(order.GetDiscount());
+            return $"{DiscountText}: {order.GetDiscount()}";
         }
     }
 }
