@@ -1,5 +1,3 @@
-using System;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -10,13 +8,13 @@ namespace refactor_gym_warmup_2020.cashier
         private Order order;
         private const string TotalAmountText = "总价";
         private const string HeaderText = "======老王超市,值得信赖======\n";
-        private const string SalesTax = "税额";
+        private const string SalesTaxText = "税额";
+        private const string DiscountText = "折扣";
         private const string FooterText = "---------------";
 
         public OrderReceipt(Order order)
         {
             this.order = order;
-            
         }
 
         public string PrintReceipt()
@@ -28,6 +26,10 @@ namespace refactor_gym_warmup_2020.cashier
             output.Append(FooterText);
             
             output.Append(PrintSalesTax());
+            if (order.HasDiscount())
+            {
+                output.Append(PrintDiscount());
+            }
             output.Append(PrintTotalPrice());
             return output.ToString();
         }
@@ -50,8 +52,7 @@ namespace refactor_gym_warmup_2020.cashier
         {
             var output = new StringBuilder();
             output.Append(HeaderText);
-            var now = DateTime.Now.ToString("yyyy年M月d日, dddd", new CultureInfo("zh-cn"));
-            output.Append(now);
+            output.Append(order.GetOrderTime());
             output.Append(order.GetCustomerName());
             output.Append(order.GetCustomerAddress());
             
@@ -60,12 +61,17 @@ namespace refactor_gym_warmup_2020.cashier
 
         private StringBuilder PrintTotalPrice()
         {
-            return new StringBuilder().Append(TotalAmountText).Append('\t').Append(order.GetLineItems().Sum(item => item.TotalPrice()));
+            return new StringBuilder().Append(TotalAmountText).Append('\t').Append(order.TotalPrice());
         }
 
         private StringBuilder PrintSalesTax()
         {
-            return new StringBuilder().Append(SalesTax).Append('\t').Append(order.GetLineItems().Sum(item => item.Tax()));
+            return new StringBuilder().Append(SalesTaxText).Append('\t').Append(order.GetTax());
+        }
+        
+        private StringBuilder PrintDiscount()
+        {
+            return new StringBuilder().Append(DiscountText).Append('\t').Append(order.GetDiscount());
         }
     }
 }
